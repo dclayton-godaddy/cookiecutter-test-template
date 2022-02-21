@@ -1,0 +1,35 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: cookiecutter
+  title: Cookiecutter Example
+  description: Test a cookiecutter template
+  annotations:
+    github.com/team-slug: gdcorp-im/dev-experience-team
+    backstage.io/techdocs-ref: dir:.
+spec:
+  owner: dev-experience-team
+  type: service
+
+  parameters:
+    - title: Options
+      required:
+        - project_name
+      properties:
+        project_name:
+          title: Project Name
+          type: string
+          description: Description of the component
+
+  steps:
+    - id: run-cookiecutter
+      name: Run Cookiecutter
+      action: fetch:cookiecutter
+      input:
+        url: https://github.com/DerekCL/cookiecutter-typescript-webpack
+        values:
+          project_name: ${{ parameters.project_name }}
+    - name: Results
+      action: debug:log
+      input:
+        listWorkspace: true
